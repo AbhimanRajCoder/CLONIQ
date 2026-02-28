@@ -1,360 +1,218 @@
-# 🧠 CLONIQ – Structural Code Intelligence Engine
+# CLONIQ – Code Similarity Detection Tool
 
-**AST-Based Code Similarity & Plagiarism Detection Platform**
-
-CLONIQ is an advanced structural code analysis engine that detects similarity based on Abstract Syntax Tree (AST) topology rather than text comparison. Unlike traditional diff-based tools, CLONIQ analyzes the *structural blueprint* of code, making it highly resistant to common obfuscation techniques such as variable renaming, formatting changes, comment insertion, and minor reordering.
+A smart tool that finds copied code by analyzing structure, not just text.
 
 ---
 
-## 1. Problem Statement
+## What Problem Does This Solve?
 
-### Problem Title
-Robust Structural Code Similarity & Plagiarism Detection
+**The Problem:**  
+Students and developers sometimes copy code and make small changes (like renaming variables or adding spaces) to hide plagiarism. Normal text comparison tools can't catch these tricks.
 
-### Problem Description
-Most existing plagiarism detection systems rely on line-by-line or token-based text comparison. These approaches fail when minor cosmetic modifications are applied to code. Developers, students, and malicious actors can easily bypass such systems through simple obfuscation strategies.
-
-### Target Users
-- Universities & Academic Institutions  
-- Coding Platforms  
-- Hiring & Assessment Platforms  
-- Enterprise Code Audit Teams  
-- Open Source Maintainers  
-
-### Existing Gaps
-- Text-based diff tools fail on variable rename  
-- Token comparison sensitive to formatting  
-- Manual review not scalable  
-- Hash-based approaches too fragile  
+**Our Solution:**  
+CLONIQ looks at the *structure* of the code (like a blueprint) instead of just the text. Even if someone renames variables or changes formatting, we can still detect if the code logic is the same.
 
 ---
 
-## 2. Problem Understanding & Approach
+## Who Is This For?
 
-### Root Cause Analysis
-Code logic is structural, not textual. Two implementations may look visually different while representing identical logic.
-
-### Solution Strategy
-CLONIQ:
-1. Parses source code into AST
-2. Normalizes structure to remove cosmetic differences
-3. Converts structure into token sequences
-4. Computes similarity using N-Gram & Jaccard Index
-5. Performs clustering for anomaly detection
-6. Returns unified structured analysis
+- **Universities** – Check student assignments for plagiarism
+- **Coding Platforms** – Detect cheating in online tests
+- **Companies** – Find duplicate code in large projects
+- **Hiring Teams** – Verify candidates write original code
 
 ---
 
-## 3. Proposed Solution
+## How Does It Work?
 
-### Solution Overview
-CLONIQ consists of:
+Think of code like a building blueprint:
 
-- FastAPI-based Backend Engine  
-- Structural AST Normalization Core  
-- N-Gram Jaccard Similarity Engine  
-- Clustering Module  
-- Next.js Visualization Frontend  
-
-### Core Idea
-Normalize → Tokenize → Compare → Cluster → Visualize
-
-### Key Features
-- AST-based structural tokenization  
-- Anti-obfuscation normalization layer  
-- Identifier & constant generalization  
-- N-Gram similarity computation  
-- Jaccard similarity scoring  
-- Force-directed similarity graph  
-- Continuous HSL heatmap  
-- GitHub repository comparison  
-- Zip-to-Zip codebase comparison  
-- Recursive AST visualization  
+1. **Upload Code** – You give us Python files, zip folders, or GitHub links
+2. **Convert to Blueprint** – We turn code into a structural tree (called AST)
+3. **Clean It Up** – We remove names and formatting that don't matter
+4. **Find Patterns** – We break the structure into small pieces
+5. **Compare** – We check how similar different files are
+6. **Show Results** – You get a visual map showing which files are copied
 
 ---
 
-## 4. System Architecture
+## System Diagrams
 
-### High-Level Flow
-User → Frontend → Backend → AST Engine → Similarity Engine → Response → Visualization
-
-### Architecture Description
-
-**Backend:**
-- Ingestion Layer (Files / ZIP / GitHub)
-- AST Parser
-- Structural Normalizer
-- N-Gram Engine
-- Jaccard Similarity Matrix Generator
-- Clustering Engine
-
-**Frontend:**
-- Dashboard UI
-- Force-Directed Graph
-- Similarity Heatmap
-- Recursive AST Viewer
+### Full System Architecture
 
 ```mermaid
-graph TD
-    subgraph Frontend
-        A[Dashboard UI]
-        B[Force Graph]
-        C[Heatmap]
-        D[AST Viewer]
+flowchart LR
+    subgraph Frontend["Next.js Client"]
+        UI["Dashboard UI"]
+        State["React Context"]
+        Graph["Force Graph"]
+        Heatmap["Heatmap"]
+        ASTViewer["AST Viewer"]
     end
 
-    subgraph Backend
-        E[FastAPI Router]
-        F[Ingestion Engine]
-        G[AST Parser]
-        H[N-Gram Similarity Engine]
-        I[Clustering Module]
+    subgraph Backend["FastAPI Engine"]
+        API["FastAPI Router"]
+        Ingest["Ingestion Layer"]
+        Parser["AST Parser"]
+        Normalize["Normalizer"]
+        Hash["Subtree Hash Engine"]
+        Similarity["Jaccard Engine"]
+        Cluster["Clustering Module"]
     end
 
-    A --> E
-    E --> F
-    F --> G
-    G --> H
-    H --> I
-    I --> E
-    E --> B
-    E --> C
-    E --> D
+    UI --> State
+    State --> Graph
+    State --> Heatmap
+    State --> ASTViewer
+
+    API --> Ingest
+    Ingest --> Parser
+    Parser --> Normalize
+    Normalize --> Hash
+    Hash --> Similarity
+    Similarity --> Cluster
+
+    Frontend -->|POST /analyze| Backend
+    Backend -->|JSON Response| Frontend
 ```
 
----
+### Processing Pipeline
 
-## 5. Database Design
+```mermaid
+flowchart TD
 
-**Current Architecture:**
+    Upload["Upload (.py / .zip / GitHub)"]
+    Extract["Extract Python Files"]
+    Parse["ast.parse() → AST"]
+    Normalize["Normalize AST Structure"]
+    Hash["Generate SHA-256 Subtree Hashes"]
+    NGram["Generate N-Grams"]
+    Similarity["Compute Jaccard Similarity"]
+    Regions["Extract Matching Regions"]
+    JSON["Return JSON Result"]
 
-- Stateless design
-- In-memory analysis computation
-
-**Future scalable version may include:**
-
-Tables:
-- Users
-- Analysis Sessions
-- File Metadata
-- Similarity Results
-- Cluster Reports
-
----
-
-## 6. Dataset
-
-### Dataset Name
-User-submitted Python source files
-
-### Sources
-- Direct `.py` upload
-- `.zip` archive upload
-- GitHub public repositories
-
-### Data Type
-Structured Python source code
-
-### Preprocessing Steps
-- Remove non-python files
-- Strip docstrings & comments
-- Normalize variable & function identifiers
-- Convert AST into structural token vectors
-
----
-
-## 7. Model Used
-
-### Model Name
-AST-Based N-Gram + Jaccard Similarity Model
-
-### Selection Reasoning
-- Deterministic
-- Scalable
-- Computationally efficient
-- Obfuscation resistant
-
-### Alternatives Considered
-- TF-IDF Vectorization (text-sensitive)
-- Tree Edit Distance (computationally expensive)
-- Deep Learning Embeddings (opaque & heavy)
-- GPT-based comparison (costly & non-deterministic)
-
-### Similarity Formula
-
-```
-J(A, B) = |A ∩ B| / |A ∪ B|
+    Upload --> Extract
+    Extract --> Parse
+    Parse --> Normalize
+    Normalize --> Hash
+    Hash --> NGram
+    NGram --> Similarity
+    Similarity --> Regions
+    Regions --> JSON
 ```
 
-Where:
-- A = N-grams of file 1
-- B = N-grams of file 2
+### Similarity Computation Sequence
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant API
+    participant Parser
+    participant Engine
+
+    User->>Frontend: Upload Code
+    Frontend->>API: POST /analyze
+    API->>Parser: Parse to AST
+    Parser->>Engine: Normalize + Hash
+    Engine->>Engine: Build N-Grams
+    Engine->>Engine: Compute Jaccard Matrix
+    Engine-->>API: Analysis JSON
+    API-->>Frontend: Response
+    Frontend->>User: Render Graph + Heatmap
+```
+
+### Similarity Graph Logic
+
+```mermaid
+flowchart LR
+    FileA["File A N-Grams"]
+    FileB["File B N-Grams"]
+    Intersect["A ∩ B"]
+    Union["A ∪ B"]
+    Score["J = |A ∩ B| / |A ∪ B|"]
+    Threshold["Score ≥ 0.5"]
+    Edge["Create Graph Edge"]
+    Cluster["Cluster Detection (≥ 0.75)"]
+
+    FileA --> Intersect
+    FileB --> Intersect
+    FileA --> Union
+    FileB --> Union
+    Intersect --> Score
+    Union --> Score
+    Score --> Threshold
+    Threshold --> Edge
+    Edge --> Cluster
+```
+
+### How We Calculate Similarity
+
+```
+Similarity Score: J(A, B) = |A ∩ B| / |A ∪ B|
+```
+
+**What this means:**
+- A = structural patterns from File 1
+- B = structural patterns from File 2
+- ∩ = patterns that appear in both files
+- ∪ = all unique patterns from both files
+
+If two files share 80% of their structural patterns, they get an 80% similarity score.
 
 ---
 
-## 8. Technology Stack
+## Technology Used
 
-### Frontend
-- Electron
-- Next.js
-- TypeScript
-- TailwindCSS
-- Framer Motion
-- HTML5 Canvas
+**Frontend (What You See):**
+- Next.js – Modern web framework
+- TypeScript – Programming language
+- TailwindCSS – Styling
+- Interactive graphs and heatmaps
 
-### Backend
-- FastAPI
-- Python 3.10+
-- Uvicorn
-
-### Structural Engine
-- Python AST module
-- N-Gram generator
-- Jaccard similarity matrix
-- Agglomerative clustering
-
-### Deployment
-- Frontend: Vercel
-- Backend: Docker / VPS
-- GitHub API integration
+**Backend (The Engine):**
+- FastAPI – Fast Python web framework
+- Python AST – Converts code to structure
+- Jaccard Similarity – Math formula for comparison
+- Clustering – Groups similar files together
 
 ---
 
-## 9. API Documentation
+## Features
 
-### Endpoints
-- `POST /analyze`
-- `POST /analyze-pair`
-- `POST /compare-zips`
-- `POST /compare-github-repos`
-- `POST /visualize-ast`
+✅ **Upload Options:**
+- Single Python file
+- Zip folder with multiple files
+- GitHub repository link
 
-All endpoints return a standardized `AnalysisResult` JSON object.
+✅ **Analysis:**
+- Structure-based comparison (not just text)
+- Detects renamed variables
+- Ignores formatting differences
+- Shows matching code regions
 
----
-
-## 10. Development Roadmap
-
-### Phase 1 – Research & Design
-- Structural similarity methodology
-- AST normalization blueprint
-- Metric evaluation
-
-### Phase 2 – Backend Core
-- AST parser
-- Structural normalizer
-- N-Gram generator
-- Similarity matrix engine
-
-### Phase 3 – Frontend Analytics Dashboard
-- Force graph renderer
-- Heatmap visualization
-- Recursive AST viewer
-
-### Phase 4 – GitHub Integration
-- Repo cloning
-- Token-based rate management
-
-### Phase 5 – Deployment
-- Environment config
-- Docker setup
-- Production optimization
+✅ **Visualization:**
+- Interactive similarity graph
+- Color-coded heatmap
+- View code structure tree
 
 ---
 
-## 11. End-to-End Workflow
+## How to Run It
 
-1. User uploads code
-2. Backend validates & ingests
-3. AST parsing
-4. Structural normalization
-5. N-gram generation
-6. Jaccard similarity computation
-7. Similarity matrix creation
-8. Clustering
-9. JSON payload generated
-10. Frontend renders analytics
-
----
-
-## 12. Demo
-
-- Live Demo: (Add Link)
-- Demo Video: (Add Link)
-- GitHub Repository: (Add Link)
-
----
-
-## 13. Deliverables Summary
-
-- Fully functional AST similarity engine
-- Structural normalization module
-- Visual similarity graph
-- Continuous heatmap renderer
-- GitHub repository comparison
-- Zip batch comparison
-
----
-
-## 14. Team Roles
-
-| Member Name | Role      | Responsibilities            |
-| ----------- | --------- | --------------------------- |
-| ABHIMAN RAJ   | FULL-STACK | Core engine development  |
-| AMARTYA MADHAV MISHRA    | FRONTEND   | Frontend design & UI      |
-| MRITYUNJAY SAHU   | BACKEND  | Backend Design & Development      |
-
-
----
-
-## 15. Future Scope
-
-### Short-Term
-- Support for C++ / Java
-- Tree edit distance hybrid model
-- Performance benchmarking
-
-### Long-Term
-- IDE plugin integration
-- LMS integration APIs
-- Enterprise audit suite
-- Cross-language structural fingerprinting
-
----
-
-## 16. Known Limitations
-
-- Currently Python-only
-- Structural similarity ≠ runtime semantic equivalence
-- Large repositories may require batching optimization
-
----
-
-## 17. Impact
-
-- Academic integrity enforcement
-- Automated enterprise code audits
-- Large-scale repository deduplication
-- Structural-level code intelligence analysis
-
----
-
-## Getting Started
-
-### Backend
+### Backend Setup
 
 ```bash
 cd backend
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env
 uvicorn main:app --reload --port 8000
 ```
 
-Visit: [http://localhost:8000/docs](http://localhost:8000/docs)
+Open: http://localhost:8000/docs
 
-### Frontend
+### Frontend Setup
 
 ```bash
 cd frontend
@@ -362,5 +220,80 @@ npm install
 npm run dev
 ```
 
-Visit: [http://localhost:3000](http://localhost:3000)
+Open: http://localhost:3000
 
+---
+
+## API Endpoints (How to Use It)
+
+- **POST /analyze** – Analyze multiple files
+- **POST /analyze-pair** – Compare two files
+- **POST /compare-zips** – Compare two zip folders
+- **POST /compare-github-repos** – Compare GitHub repositories
+- **POST /visualize-ast** – See code structure tree
+
+---
+
+## Team
+
+| Name                  | Role               |
+| --------------------- | ------------------ |
+| ABHIMAN RAJ           | Core Development   |
+| AMARTYA MADHAV MISHRA | UI & Design        |
+| MRITYUNJAY SAHU       | Backend System     |
+
+---
+
+## Future Plans
+
+🔮 **What's Next:**
+- Support more languages (Java, C++, JavaScript)
+- Browser extension for code editors
+- Integration with learning management systems
+- Mobile app version
+- Enterprise security features
+
+---
+
+## Why This Matters
+
+📚 **For Education:**  
+Helps maintain academic honesty and fair grading
+
+💼 **For Business:**  
+Finds duplicate code that wastes storage and maintenance time
+
+🔍 **For Code Review:**  
+Automatically detects copy-paste code that should be refactored
+
+---
+
+## How It's Different
+
+| Traditional Tools          | CLONIQ                      |
+| -------------------------- | --------------------------- |
+| Compares text line-by-line | Compares code structure     |
+| Fooled by variable renames | Detects renamed variables   |
+| Breaks on formatting       | Ignores whitespace/comments |
+| Simple percentage match    | Smart structural analysis   |
+
+---
+
+
+Even though variable names changed, CLONIQ knows these are the same logic!
+
+---
+
+## License
+
+This project is for educational and research purposes.
+
+---
+
+## Contact & Support
+
+For questions or support, contact the team members listed above.
+
+---
+
+**Made with ❤️ for honest code**

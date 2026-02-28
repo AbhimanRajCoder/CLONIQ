@@ -1,0 +1,135 @@
+#################################################
+# 🚫 CLONIQ – Global .gitignore
+# For: FastAPI Backend + Next.js Frontend
+#################################################
+
+############################
+# OS Files
+############################
+.DS_Store
+Thumbs.db
+desktop.ini
+
+############################
+# Logs
+############################
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+############################
+# Environment Files (CRITICAL)
+############################
+.env
+.env.*
+*.env
+backend/.env
+frontend/.env.local
+frontend/.env.development
+frontend/.env.production
+
+############################
+# Python – Backend (FastAPI)
+############################
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+.venv/
+ENV/
+
+# Python Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Pytest / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+############################
+# Node / Next.js – Frontend
+############################
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# Package Managers
+.pnpm-store/
+.npm/
+.yarn/
+.yarn-cache/
+.yarnrc.yml
+
+############################
+# TypeScript
+############################
+*.tsbuildinfo
+
+############################
+# PDF Reports (Generated)
+############################
+reports/
+*.pdf
+
+############################
+# Uploaded User Files (Very Important)
+############################
+uploads/
+temp_uploads/
+analysis_results/
+extracted_files/
+parsed_output/
+
+############################
+# Similarity Engine Artifacts
+############################
+hash_cache/
+fingerprints/
+graph_cache/
+cluster_cache/
+similarity_matrix_cache/
+
+############################
+# AI / LLM Temporary Files
+############################
+llm_cache/
+prompt_logs/
+gemini_responses/
+
+############################
+# Google Sheets / CSV Downloads
+############################
+sheets_cache/
+*.csv
+
+############################
+# Editor / IDE
+############################
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+############################
+# Misc
+############################
+*.sqlite3
+*.db
+*.bak
+*.tmp
+*.swp
+*.swo

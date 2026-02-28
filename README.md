@@ -299,10 +299,10 @@ All endpoints return a standardized `AnalysisResult` JSON object.
 
 | Member Name | Role      | Responsibilities            |
 | ----------- | --------- | --------------------------- |
-| Your Name   | Architect | Core engine & system design |
-| Member 2    | Backend   | API & AST modules           |
-| Member 3    | Frontend  | Visualization system        |
-| Member 4    | DevOps    | Deployment & infra          |
+| ABHIMAN RAJ   | FULL-STACK | Core engine development  |
+| AMARTYA MADHAV MISHRA    | FRONTEND   | Frontend design & UI      |
+| MRITYUNJAY SAHU   | BACKEND  | Backend Design & Development      |
+
 
 ---
 

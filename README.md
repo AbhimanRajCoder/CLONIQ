@@ -195,6 +195,7 @@ Where:
 ## 8. Technology Stack
 
 ### Frontend
+- Electron
 - Next.js
 - TypeScript
 - TailwindCSS

@@ -2,6 +2,9 @@
 
 A smart tool that finds copied code by analyzing structure, not just text. Powered by **AST + CFG + DataFlow** structural analysis and **Gemini AI Semantic Judge**.
 
+🔗 **Try it Live:** [https://cloniq-puce.vercel.app](https://cloniq-puce.vercel.app)  
+📁 **Project Assets / Documentation:** [Google Drive Folder](https://drive.google.com/drive/folders/1xL9q75p5FJ1rLelhwpsGjYiMA6sSHxTV?usp=sharing)
+
 ---
 
 ## What Problem Does This Solve?
@@ -25,7 +28,7 @@ CLONIQ looks at the *structure* of the code (like a blueprint) instead of just t
 
 ## How Does It Work?
 
-1. **Upload Code** – Python files, ZIP folders, GitHub links, or a **Google Sheet** of student repos
+1. **Upload Code** – Python, JavaScript, TypeScript files, ZIP folders, GitHub links, or a **Google Sheet** of student repos
 2. **Convert to Blueprint** – Code is parsed into AST, CFG, and Data Flow graphs
 3. **Clean It Up** – Variables, formatting, and comments are normalized away
 4. **Find Patterns** – Structure is broken into fingerprinted subtrees
@@ -229,8 +232,9 @@ Where:
 
 ## Technology Used
 
-**Frontend (What You See):**
+**Frontend & Desktop Apps:**
 - Next.js 14 (App Router) – Modern web framework
+- Electron – Standalone macOS Desktop App (.dmg export)
 - TypeScript – Type-safe programming
 - TailwindCSS – Premium dark-mode styling
 - Framer Motion – Smooth animations
@@ -239,7 +243,7 @@ Where:
 
 **Backend (The Engine):**
 - FastAPI – High-performance Python API
-- Python AST – Code structure parser
+- AST & Tree-Sitter – Universal code structure parser for Python, JS, and TS
 - Three-Layer Similarity – AST + CFG + DataFlow
 - Gemini 2.5 Flash – AI semantic judge
 - K-Means Clustering – Groups similar files
@@ -250,7 +254,7 @@ Where:
 ## Features
 
 ✅ **Upload Options:**
-- Single or multiple Python files
+- Python (.py) and JavaScript/TypeScript (.js, .jsx, .ts, .tsx) files
 - ZIP folder with multiple files
 - Two GitHub repository URLs
 - 🆕 **Google Sheet** with student repo links (batch mode)
@@ -282,14 +286,18 @@ Where:
   - Color-coded risk indicators
   - Fetch error log
 
+✅ **Standalone Desktop App:**
+- 🆕 Secure, offline-capable macOS Desktop client packaged with Electron!
+
 ---
 
 ## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/analyze` | Analyze multiple .py files |
+| POST | `/analyze` | Analyze multiple .py, .js, .ts files |
 | POST | `/analyze-pair` | Compare exactly two files |
+| POST | `/demo-analyze-pair` | 🆕 Auth-free endpoint for quick pairwise testing |
 | POST | `/analyze-advanced` | Two files with full AST + CFG + DataFlow + AI |
 | POST | `/compare-zips` | Compare two ZIP archives |
 | POST | `/compare-github-repos` | Compare two GitHub repo URLs |
@@ -369,7 +377,7 @@ Open: http://localhost:3000
 ## Future Plans
 
 🔮 **What's Next:**
-- Support more languages (Java, C++, JavaScript)
+- Support more languages (Java, C++, Go)
 - Browser extension for code editors
 - Integration with learning management systems
 - Mobile app version

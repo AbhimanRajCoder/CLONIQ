@@ -2,7 +2,24 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { HiOutlineArrowRight, HiOutlineCode, HiOutlineServer, HiOutlineShieldCheck, HiOutlineDocumentSearch } from 'react-icons/hi';
+import {
+    HiOutlineArrowRight,
+    HiOutlineCode,
+    HiOutlineServer,
+    HiOutlineShieldCheck,
+    HiOutlineDocumentSearch,
+    HiOutlineGlobeAlt
+} from 'react-icons/hi';
+import {
+    FiCpu,
+    FiLayers,
+    FiGitBranch,
+    FiTerminal,
+    FiActivity,
+    FiFileText,
+    FiCheckSquare,
+    FiAlertTriangle
+} from 'react-icons/fi';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { supabase } from '@/lib/supabase';
@@ -19,95 +36,188 @@ export default function LandingPage() {
         });
     };
 
-    const fadeUp = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
-    };
-
-    const staggerContainer = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.1 }
-        }
-    };
-
     return (
-        <div className="min-h-screen bg-surface-base text-white font-sans selection:bg-surface-secondary">
+        <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-accent-cyan/30">
+            {/* Global Progress Line */}
+            <div className="fixed top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent-cyan/50 to-transparent z-50" />
+
             {/* Navigation */}
-            <nav className="fixed top-0 left-0 right-0 h-16 border-b border-surface-border bg-surface-base/80 backdrop-blur-md z-50 flex items-center justify-between px-6 lg:px-12">
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-surface-secondary border border-surface-border flex items-center justify-center">
-                        <span className="font-bold text-sm text-white">C</span>
+            <nav className="fixed top-0 left-0 right-0 h-16 border-b border-white/5 bg-black/60 backdrop-blur-xl z-50 flex items-center justify-between px-6 lg:px-12">
+                <div className="flex items-center gap-4">
+                    <div className="group relative">
+                        <div className="absolute -inset-2 bg-accent-cyan/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                        <div className="relative w-9 h-9 rounded-lg bg-white flex items-center justify-center overflow-hidden">
+                            <span className="font-black text-lg text-black italic">C</span>
+                        </div>
                     </div>
-                    <span className="font-bold tracking-wide text-sm text-white">CLONIQ</span>
+                    <div className="flex flex-col">
+                        <span className="font-bold tracking-[0.2em] text-xs text-white uppercase">Cloniq</span>
+                        <span className="text-[9px] text-accent-cyan tracking-widest uppercase font-medium">Structural Intelligence</span>
+                    </div>
                 </div>
-                <div className="flex gap-4">
-                    <Button variant="ghost" onClick={handleSignIn}>Sign In</Button>
-                    <Button variant="primary" onClick={() => router.push('/upload')}>Start Analysis</Button>
+                <div className="hidden lg:flex items-center gap-8 text-[11px] uppercase tracking-widest font-semibold text-white/40">
+                    <a href="#engine" className="hover:text-accent-cyan transition-colors">Engine</a>
+                    <a href="#pipeline" className="hover:text-accent-cyan transition-colors">Pipeline</a>
+                    <a href="#enterprise" className="hover:text-accent-cyan transition-colors">Enterprise</a>
+                </div>
+                <div className="flex items-center gap-4">
+                    <Button variant="ghost" onClick={handleSignIn} className="text-[11px] uppercase tracking-wider opacity-60 hover:opacity-100">Sign In</Button>
+                    <Button variant="primary" onClick={() => router.push('/upload')} className="text-[11px] uppercase tracking-wider bg-white text-black hover:bg-accent-cyan hover:text-white transition-all px-6">
+                        Start Scan
+                    </Button>
                 </div>
             </nav>
 
             {/* Hero Section */}
-            <section className="pt-40 pb-24 px-6 lg:px-12 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
-                <motion.div
-                    initial="hidden" animate="visible" variants={staggerContainer}
-                    className="flex-1 space-y-8"
-                >
-                    <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-secondary border border-surface-border text-xs font-medium text-surface-muted">
-                        <span className="w-2 h-2 rounded-full bg-accent-cyan"></span>
-                        Introducing Engine v2.0
-                    </motion.div>
-                    <motion.h1 variants={fadeUp} className="text-5xl lg:text-7xl font-bold tracking-tight leading-tight text-white">
-                        Detect Structural Code Clones, Not Just Text.
-                    </motion.h1>
-                    <motion.p variants={fadeUp} className="text-lg text-surface-muted max-w-xl leading-relaxed">
-                        Intelligence for academic integrity and enterprise security. CLONIQ analyzes code at the structural level using AST, CFG, and DFG to detect logical similarity even when variables are renamed or code is reformatted.
-                    </motion.p>
-                    <motion.div variants={fadeUp} className="flex flex-wrap gap-4 pt-4">
-                        <Button variant="primary" onClick={() => router.push('/upload')}>
-                            Start Analysis <HiOutlineArrowRight />
-                        </Button>
-                        <Button variant="secondary" onClick={() => {
-                            document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-                        }}>
-                            See How It Works
-                        </Button>
-                    </motion.div>
-                </motion.div>
+            <section className="relative pt-44 pb-32 px-6 lg:px-12 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
+                <div className="absolute top-20 left-0 w-72 h-72 bg-accent-cyan/10 rounded-full blur-[120px] -z-10" />
 
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="flex-1 w-full"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex-1 space-y-10"
                 >
-                    {/* Animated Mockup */}
-                    <div className="relative aspect-square md:aspect-video lg:aspect-square bg-surface-tertiary border border-surface-border rounded-2xl overflow-hidden shadow-surface-md flex flex-col">
-                        <div className="h-10 border-b border-surface-border bg-surface-secondary flex items-center px-4 gap-2">
-                            <div className="w-3 h-3 rounded-full bg-surface-border" />
-                            <div className="w-3 h-3 rounded-full bg-surface-border" />
-                            <div className="w-3 h-3 rounded-full bg-surface-border" />
-                        </div>
-                        <div className="flex-1 p-6 flex flex-col gap-4 relative">
-                            {/* Abstract Graph Visualization */}
-                            <svg className="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                <path d="M10,50 Q30,20 50,50 T90,50" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-accent-purple" />
-                                <circle cx="10" cy="50" r="2" fill="currentColor" className="text-accent-cyan" />
-                                <circle cx="50" cy="50" r="2" fill="currentColor" className="text-accent-cyan" />
-                                <circle cx="90" cy="50" r="2" fill="currentColor" className="text-red-500 animate-pulse" />
-                            </svg>
-                            <div className="flex justify-between items-center relative z-10">
-                                <div className="text-xs font-mono text-surface-muted">analysis_job_492.json</div>
-                                <div className="text-xs px-2 py-1 bg-red-500/10 text-red-400 rounded border border-red-500/20 font-medium">98% Match</div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4 flex-1 mt-4 relative z-10">
-                                <div className="bg-surface-secondary border border-surface-border rounded-xl p-4 flex flex-col justify-end">
-                                    <div className="w-3/4 h-2 bg-surface-border rounded mb-2"></div>
-                                    <div className="w-1/2 h-2 bg-surface-border rounded"></div>
+                    <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] uppercase tracking-[0.2em] font-bold text-accent-cyan">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-cyan opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-cyan"></span>
+                        </span>
+                        Gemini 2.5 Flash Integration Active
+                    </div>
+
+                    <h1 className="text-6xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-white">
+                        Analyze <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">Logic,</span> Not Strings.
+                    </h1>
+
+                    <p className="text-lg text-white/50 max-w-xl leading-relaxed font-light">
+                        Cloniq bypasses surface-level obfuscation. Using AST and DataFlow mapping, we expose structural plagiarism even after variable renaming and logical reordering.
+                    </p>
+
+                    <div className="flex flex-wrap gap-5 pt-4">
+                        <Button variant="primary" onClick={() => router.push('/upload')} className="h-14 px-8 group relative overflow-hidden bg-accent-cyan text-black font-bold uppercase tracking-widest text-xs">
+                            <span className="relative z-10 flex items-center gap-2">
+                                Start Neural Scan <HiOutlineArrowRight className="group-hover:translate-x-1 transition-transform" />
+                            </span>
+                        </Button>
+                        <Button variant="secondary" className="h-14 px-8 border-white/10 hover:bg-white/5 uppercase tracking-widest text-xs font-bold">
+                            View Methodology
+                        </Button>
+                    </div>
+                </motion.div>
+
+                {/* UNIQUE AST BLUEPRINT VISUALIZER */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex-1 w-full relative group"
+                >
+                    <div className="relative z-10 p-1 bg-gradient-to-br from-white/20 to-transparent rounded-3xl backdrop-blur-3xl">
+                        <div className="bg-[#0A0A0A] rounded-[22px] overflow-hidden border border-white/10 shadow-2xl">
+                            {/* Header */}
+                            <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-white/5">
+                                <div className="flex gap-2">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 border border-red-500/40" />
+                                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20 border border-yellow-500/40" />
+                                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/20 border border-green-500/40" />
                                 </div>
-                                <div className="bg-surface-secondary border border-red-500/30 rounded-xl p-4 flex flex-col justify-end relative overflow-hidden">
-                                    <div className="absolute inset-0 bg-red-500/5"></div>
-                                    <div className="w-3/4 h-2 bg-red-400/50 rounded mb-2 relative z-10"></div>
-                                    <div className="w-1/2 h-2 bg-red-400/50 rounded relative z-10"></div>
+                                <div className="text-[10px] font-mono text-white/30 tracking-[0.3em] uppercase">AST Comparison Engine</div>
+                            </div>
+
+                            {/* AST Visualization */}
+                            <div className="p-8 relative min-h-[500px]">
+                                {/* Sample Function */}
+                                <div className="mb-8 p-4 rounded-lg bg-white/5 border border-white/5">
+                                    <div className="text-[9px] font-mono text-white/40 mb-2 uppercase tracking-wider">Sample Function</div>
+                                    <div className="font-mono text-[11px] text-white/70 leading-relaxed">
+                                        <span className="text-accent-cyan">def</span> <span className="text-blue-400">calculate_total</span>(<span className="text-orange-400">price</span>, <span className="text-orange-400">quantity</span>):<br />
+                                        &nbsp;&nbsp;<span className="text-purple-400">tax</span> = <span className="text-orange-400">price</span> * <span className="text-green-400">0.08</span><br />
+                                        &nbsp;&nbsp;<span className="text-purple-400">subtotal</span> = <span className="text-orange-400">price</span> * <span className="text-orange-400">quantity</span><br />
+                                        &nbsp;&nbsp;<span className="text-accent-cyan">return</span> <span className="text-purple-400">subtotal</span> + <span className="text-purple-400">tax</span>
+                                    </div>
+                                </div>
+
+                                {/* AST Tree Diagram */}
+                                <div className="relative">
+                                    {/* Root Node */}
+                                    <div className="flex justify-center mb-8">
+                                        <div className="relative group/node">
+                                            <div className="absolute -inset-2 bg-accent-cyan/20 rounded-lg blur opacity-0 group-hover/node:opacity-100 transition-opacity"></div>
+                                            <div className="relative px-6 py-3 rounded-lg bg-accent-cyan/10 border-2 border-accent-cyan/40">
+                                                <div className="text-[10px] font-mono text-accent-cyan font-bold">FunctionDef</div>
+                                                <div className="text-[8px] font-mono text-white/40 mt-1">calculate_total</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Connection Lines */}
+                                    <svg className="absolute top-12 left-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
+                                        {/* Root to Parameters */}
+                                        <line x1="50%" y1="40" x2="30%" y2="120" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+                                        <line x1="50%" y1="40" x2="70%" y2="120" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+
+                                        {/* Parameters to Body */}
+                                        <line x1="30%" y1="160" x2="20%" y2="240" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+                                        <line x1="30%" y1="160" x2="40%" y2="240" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+                                        <line x1="70%" y1="160" x2="60%" y2="240" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+                                        <line x1="70%" y1="160" x2="80%" y2="240" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+                                    </svg>
+
+                                    {/* Level 1: Parameters & Body */}
+                                    <div className="flex justify-around mb-12 relative z-10">
+                                        <div className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30">
+                                            <div className="text-[9px] font-mono text-blue-400 font-bold">Parameters</div>
+                                        </div>
+                                        <div className="px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/30">
+                                            <div className="text-[9px] font-mono text-purple-400 font-bold">Body</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Level 2: Details */}
+                                    <div className="grid grid-cols-4 gap-4 relative z-10">
+                                        {/* Parameter Details */}
+                                        <div className="px-3 py-2 rounded bg-orange-500/10 border border-orange-500/20">
+                                            <div className="text-[8px] font-mono text-orange-400 font-bold mb-1">Arg</div>
+                                            <div className="text-[7px] font-mono text-white/50">price</div>
+                                        </div>
+                                        <div className="px-3 py-2 rounded bg-orange-500/10 border border-orange-500/20">
+                                            <div className="text-[8px] font-mono text-orange-400 font-bold mb-1">Arg</div>
+                                            <div className="text-[7px] font-mono text-white/50">quantity</div>
+                                        </div>
+
+                                        {/* Body Operations */}
+                                        <div className="px-3 py-2 rounded bg-green-500/10 border border-green-500/20">
+                                            <div className="text-[8px] font-mono text-green-400 font-bold mb-1">Assign</div>
+                                            <div className="text-[7px] font-mono text-white/50">tax = ...</div>
+                                        </div>
+                                        <div className="px-3 py-2 rounded bg-pink-500/10 border border-pink-500/20">
+                                            <div className="text-[8px] font-mono text-pink-400 font-bold mb-1">Return</div>
+                                            <div className="text-[7px] font-mono text-white/50">result</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Comparison Indicator */}
+                                    <div className="mt-8 pt-6 border-t border-white/5">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                                                <span className="text-[9px] font-mono text-green-400 uppercase tracking-wider">Structural Match Detected</span>
+                                            </div>
+                                            <div className="px-3 py-1 rounded bg-red-500/10 border border-red-500/20 text-[9px] text-red-400 font-bold">
+                                                96.8% Similarity
+                                            </div>
+                                        </div>
+
+                                        {/* Matched Clone Example */}
+                                        <div className="mt-4 p-4 rounded-lg bg-red-500/5 border border-red-500/10">
+                                            <div className="text-[9px] font-mono text-red-400 mb-2 uppercase tracking-wider">Detected Clone</div>
+                                            <div className="font-mono text-[11px] text-red-300/70 leading-relaxed">
+                                                <span className="text-red-400">def</span> <span className="text-red-300">get_final_price</span>(<span className="text-red-300">cost</span>, <span className="text-red-300">qty</span>):<br />
+                                                &nbsp;&nbsp;<span className="text-red-300">sales_tax</span> = <span className="text-red-300">cost</span> * <span className="text-red-300">0.08</span><br />
+                                                &nbsp;&nbsp;<span className="text-red-300">total</span> = <span className="text-red-300">cost</span> * <span className="text-red-300">qty</span><br />
+                                                &nbsp;&nbsp;<span className="text-red-400">return</span> <span className="text-red-300">total</span> + <span className="text-red-300">sales_tax</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -115,115 +225,131 @@ export default function LandingPage() {
                 </motion.div>
             </section>
 
-            {/* The Problem Section */}
-            <section className="py-24 px-6 lg:px-12 bg-surface-secondary border-y border-surface-border">
-                <div className="max-w-5xl mx-auto divide-y divide-surface-border">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-white">Why Text-Based Tools Fail</h2>
-                        <p className="text-surface-muted max-w-2xl mx-auto leading-relaxed">Traditional plagiarism detectors compare raw text. Developers can easily bypass them with simple tricks, leading to false negatives and unfair accusations.</p>
-                    </div>
+            {/* Comparison Section - "The Shift" */}
+            <section id="engine" className="py-32 px-6 lg:px-12 bg-white/5 border-y border-white/5">
+                <div className="max-w-6xl mx-auto">
+                    <div className="grid lg:grid-cols-2 gap-20 items-center">
+                        <div className="space-y-8">
+                            <h2 className="text-4xl font-bold tracking-tight">Traditional Tools <span className="text-white/30">Miss the Mark.</span></h2>
+                            <p className="text-white/50 leading-relaxed italic">
+                                "Standard plagiarism detection is easily bypassed by renaming a variable or reordering a function. Cloniq sees the skeleton, not the skin."
+                            </p>
 
-                    <div className="grid md:grid-cols-2 gap-8 pt-16">
-                        <Card hover={false} className="border-red-500/20 bg-red-500/5 shadow-none">
-                            <h3 className="text-lg font-semibold text-red-400 mb-6">The Old Way: Text Matching</h3>
-                            <ul className="space-y-4 text-sm text-surface-muted">
-                                <li className="flex items-center gap-3"><span className="text-lg">❌</span> Foolable by renamed variables</li>
-                                <li className="flex items-center gap-3"><span className="text-lg">❌</span> Bypassed by reordered functions</li>
-                                <li className="flex items-center gap-3"><span className="text-lg">❌</span> Fails entirely on code reformatting</li>
-                            </ul>
-                        </Card>
-                        <Card hover={false} className="border-accent-cyan/20 bg-accent-cyan/5 shadow-none">
-                            <h3 className="text-lg font-semibold text-accent-cyan mb-6">The CLONIQ Way: Structural</h3>
-                            <ul className="space-y-4 text-sm text-surface-muted">
-                                <li className="flex items-center gap-3"><span className="text-lg">✅</span> Understands abstract syntax trees</li>
-                                <li className="flex items-center gap-3"><span className="text-lg">✅</span> Tracks underlying data and control flow</li>
-                                <li className="flex items-center gap-3"><span className="text-lg">✅</span> Confirmed by an AI Semantic Judge</li>
-                            </ul>
-                        </Card>
+                            <div className="space-y-4">
+                                <div className="flex items-start gap-4 p-5 rounded-2xl bg-black border border-white/5 group hover:border-accent-cyan/30 transition-all">
+                                    <div className="mt-1 p-2 rounded-lg bg-red-500/10 text-red-500"><FiAlertTriangle /></div>
+                                    <div>
+                                        <h4 className="text-sm font-bold uppercase tracking-wider mb-1">Text-Based Limitations</h4>
+                                        <p className="text-xs text-white/40">Fails instantly when variable names change or code is reformatted.</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-4 p-5 rounded-2xl bg-black border border-white/5 group hover:border-accent-cyan/30 transition-all">
+                                    <div className="mt-1 p-2 rounded-lg bg-accent-cyan/10 text-accent-cyan"><FiCheckSquare /></div>
+                                    <div>
+                                        <h4 className="text-sm font-bold uppercase tracking-wider mb-1">Cloniq Structural Analysis</h4>
+                                        <p className="text-xs text-white/40">Maps logic trees (AST) to identify functional similarity regardless of naming conventions.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            {[
+                                { label: 'Variables', status: 'Ignored', icon: <FiLayers /> },
+                                { label: 'Structure', status: 'Analyzed', icon: <FiGitBranch /> },
+                                { label: 'Control Flow', status: 'Mapped', icon: <FiActivity /> },
+                                { label: 'Logic', status: 'Verified', icon: <HiOutlineShieldCheck /> }
+                            ].map((item, i) => (
+                                <div key={i} className="p-8 rounded-3xl bg-black border border-white/10 flex flex-col items-center text-center gap-4 group hover:bg-white/5 transition-all">
+                                    <div className="text-2xl text-accent-cyan group-hover:scale-110 transition-transform">{item.icon}</div>
+                                    <div className="space-y-1">
+                                        <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold">{item.label}</div>
+                                        <div className="text-xs font-mono text-white tracking-widest uppercase">{item.status}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* How It Works */}
-            <section id="how-it-works" className="py-24 px-6 lg:px-12 max-w-7xl mx-auto">
-                <div className="mb-16 max-w-2xl">
-                    <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-white">How CLONIQ Works</h2>
-                    <p className="text-surface-muted leading-relaxed">A deterministic, four-step pipeline to establish absolute structural similarity.</p>
+            {/* Pipeline Section */}
+            <section id="pipeline" className="py-32 px-6 lg:px-12 max-w-7xl mx-auto">
+                <div className="text-center mb-24 space-y-4">
+                    <h2 className="text-4xl font-bold tracking-tight">The Detection Pipeline</h2>
+                    <p className="text-white/40 font-mono text-sm tracking-widest uppercase">From raw source to verified results</p>
                 </div>
 
-                <div className="grid md:grid-cols-4 gap-8">
+                <div className="grid md:grid-cols-4 gap-4 relative">
+                    <div className="hidden lg:block absolute top-1/2 left-0 w-full h-px bg-white/5 -z-10" />
                     {[
-                        { step: '01', title: 'Ingest Code', desc: 'Securely upload zip files, GitHub repos, or single documents.' },
-                        { step: '02', title: 'Structural Parsing', desc: 'Code is compiled into normalized Abstract Syntax Trees.' },
-                        { step: '03', title: 'Tri-Layer Similarity', desc: 'Algorithms compare AST, Control Flow, and Data Flow graphs.' },
-                        { step: '04', title: 'AI Verdict', desc: 'An LLM Semantic Judge acts as a final filter for false positives.' },
+                        { step: '01', title: 'Upload', desc: 'Secure upload via ZIP, GitHub, or Google Sheets batch processing.', icon: <HiOutlineGlobeAlt /> },
+                        { step: '02', title: 'Normalize', desc: 'Remove boilerplate, comments, and formatting differences.', icon: <FiLayers /> },
+                        { step: '03', title: 'Analyze', desc: 'Multi-layer scoring across AST, CFG, and DataFlow graphs.', icon: <FiCpu /> },
+                        { step: '04', title: 'Verify', desc: 'AI-powered semantic review identifies genuine plagiarism cases.', icon: <HiOutlineShieldCheck /> }
                     ].map((s, i) => (
-                        <div key={i} className="relative group p-6 rounded-2xl border border-surface-border bg-surface-tertiary">
-                            <div className="text-5xl font-black text-surface-border mb-6 transition-colors group-hover:text-surface-muted">{s.step}</div>
-                            <h3 className="text-lg font-semibold mb-3 text-white">{s.title}</h3>
-                            <p className="text-sm text-surface-muted leading-relaxed">{s.desc}</p>
+                        <div key={i} className="p-8 rounded-3xl bg-black border border-white/5 hover:border-white/20 transition-all group">
+                            <div className="text-4xl font-black text-white/5 mb-6 group-hover:text-accent-cyan/20 transition-colors">{s.step}</div>
+                            <div className="mb-4 text-accent-cyan">{s.icon}</div>
+                            <h3 className="text-xs font-black uppercase tracking-[0.2em] mb-3">{s.title}</h3>
+                            <p className="text-xs text-white/40 leading-relaxed">{s.desc}</p>
                         </div>
                     ))}
                 </div>
             </section>
 
-            {/* Feature Grid */}
-            <section className="py-24 px-6 lg:px-12 bg-surface-secondary border-y border-surface-border">
+            {/* Enterprise Features */}
+            <section id="enterprise" className="py-32 px-6 lg:px-12 bg-[#080808] border-t border-white/5">
                 <div className="max-w-7xl mx-auto">
-                    <div className="mb-16">
-                        <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-white">Enterprise-Ready Features</h2>
+                    <div className="flex flex-col lg:flex-row justify-between items-end mb-20 gap-8">
+                        <div className="space-y-4">
+                            <h2 className="text-4xl font-bold tracking-tight">Built for Scale.</h2>
+                            <p className="text-white/40 max-w-lg">Designed for academic institutions, hiring teams, and enterprise security audits.</p>
+                        </div>
+                        <div className="flex gap-4">
+                            <div className="px-6 py-3 rounded-xl border border-white/10 text-[10px] font-bold uppercase tracking-widest">Desktop App</div>
+                            <div className="px-6 py-3 rounded-xl border border-white/10 text-[10px] font-bold uppercase tracking-widest">Web Dashboard</div>
+                        </div>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-6">
-                        <Card className="col-span-1 md:col-span-2">
-                            <div className="w-12 h-12 rounded-xl bg-surface-base border border-surface-border flex items-center justify-center mb-6 text-accent-cyan shadow-sm">
-                                <HiOutlineCode className="w-6 h-6" />
-                            </div>
-                            <h3 className="text-xl font-semibold mb-3 text-white">AST + CFG + DFG Engine</h3>
-                            <p className="text-sm text-surface-muted leading-relaxed max-w-lg">The core deterministic engine evaluates multiple layers of structural logic, ensuring that no obfuscation technique goes unnoticed. Structure always reveals the truth.</p>
+                        <Card className="col-span-1 md:col-span-2 p-10 bg-white/5 border-white/10 overflow-hidden relative">
+                            <div className="absolute top-0 right-0 p-10 opacity-10 text-[12rem] pointer-events-none font-black">AI</div>
+                            <HiOutlineShieldCheck className="text-3xl text-accent-cyan mb-8" />
+                            <h3 className="text-xl font-bold mb-4">AI-Powered Verification</h3>
+                            <p className="text-sm text-white/40 leading-relaxed max-w-md">Our AI layer understands context, distinguishing between standard algorithms and actual plagiarism, reducing false positives by 85%.</p>
                         </Card>
-                        <Card>
-                            <div className="w-12 h-12 rounded-xl bg-surface-base border border-surface-border flex items-center justify-center mb-6 text-accent-purple shadow-sm">
-                                <HiOutlineShieldCheck className="w-6 h-6" />
-                            </div>
-                            <h3 className="text-xl font-semibold mb-3 text-white">AI Semantic Judge</h3>
-                            <p className="text-sm text-surface-muted leading-relaxed">Automated filtering of template code and boilerplate using targeted LLM verification.</p>
+
+                        <Card className="p-10 bg-black border-white/10">
+                            <HiOutlineServer className="text-3xl text-white/40 mb-8" />
+                            <h3 className="text-xl font-bold mb-4">Pattern Recognition</h3>
+                            <p className="text-sm text-white/40 leading-relaxed">Identify collaboration networks across large datasets using clustering and structural fingerprints.</p>
                         </Card>
-                        <Card>
-                            <div className="w-12 h-12 rounded-xl bg-surface-base border border-surface-border flex items-center justify-center mb-6 text-white shadow-sm">
-                                <HiOutlineServer className="w-6 h-6" />
-                            </div>
-                            <h3 className="text-xl font-semibold mb-3 text-white">Cluster Detection</h3>
-                            <p className="text-sm text-surface-muted leading-relaxed">Identify organized cheating rings by clustering high-similarity submissions across massive cohorts.</p>
+
+                        <Card className="p-10 bg-black border-white/10">
+                            <HiOutlineGlobeAlt className="text-3xl text-white/40 mb-8" />
+                            <h3 className="text-xl font-bold mb-4">GitHub Integration</h3>
+                            <p className="text-sm text-white/40 leading-relaxed">Compare entire repositories or import student submissions via Google Sheets.</p>
                         </Card>
-                        <Card className="col-span-1 md:col-span-2">
-                            <div className="w-12 h-12 rounded-xl bg-surface-base border border-surface-border flex items-center justify-center mb-6 text-white shadow-sm">
-                                <HiOutlineDocumentSearch className="w-6 h-6" />
-                            </div>
-                            <h3 className="text-xl font-semibold mb-3 text-white">Batch Google Sheets & PDF Reports</h3>
-                            <p className="text-sm text-surface-muted leading-relaxed max-w-lg">Export clean, actionable data directly to Google Sheets or generate irrefutable PDF reports for academic tribunals and HR code reviews.</p>
+
+                        <Card className="col-span-1 md:col-span-2 p-10 bg-gradient-to-br from-accent-cyan/10 to-transparent border-white/10">
+                            <HiOutlineDocumentSearch className="text-3xl text-white mb-8" />
+                            <h3 className="text-xl font-bold mb-4">Professional Reports</h3>
+                            <p className="text-sm text-white/40 leading-relaxed max-w-md">Generate comprehensive documentation with side-by-side comparisons, similarity heatmaps, and detailed analysis.</p>
                         </Card>
                     </div>
-                </div>
-            </section>
-
-            {/* Audience Segment */}
-            <section className="py-32 px-6 lg:px-12 max-w-7xl mx-auto">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-white">Built for Scale and Authority</h2>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {['Universities', 'Coding Platforms', 'Enterprises', 'Hiring Teams'].map((audience, i) => (
-                        <div key={i} className="h-32 rounded-2xl border border-surface-border bg-surface-tertiary flex items-center justify-center text-surface-muted hover:text-white hover:border-surface-muted transition-all cursor-default shadow-sm">
-                            <span className="font-semibold tracking-wide">{audience}</span>
-                        </div>
-                    ))}
                 </div>
             </section>
 
             {/* Footer */}
-            <footer className="py-12 border-t border-surface-border text-center text-sm text-surface-muted">
-                <p>&copy; {new Date().getFullYear()} CLONIQ. Structural Code Intelligence.</p>
+            <footer className="py-20 border-t border-white/5 text-center space-y-8">
+                <div className="flex justify-center items-center gap-3 grayscale opacity-50">
+                    <div className="w-5 h-5 rounded bg-white flex items-center justify-center font-bold text-[10px] text-black">C</div>
+                    <span className="text-[10px] font-bold tracking-[0.3em] uppercase">Cloniq Labs</span>
+                </div>
+                <div className="text-[10px] text-white/20 uppercase tracking-[0.4em]">
+                    &copy; {new Date().getFullYear()} Advanced Structural Intelligence &bull; Est. 2026
+                </div>
             </footer>
         </div>
     );

@@ -1,0 +1,68 @@
+{
+  "name": "cloniq",
+  "productName": "CLONIQ",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CLONIQ – Structural Code Intelligence Desktop App",
+  "author": "CLONIQ Team",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "electron": "electron .",
+    "electron-dev": "concurrently \"next dev\" \"wait-on http://localhost:3000 && electron .\"",
+    "build:electron": "next build && electron-builder --mac"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.98.0",
+    "axios": "^1.7.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "electron-serve": "^3.0.1",
+    "framer-motion": "^11.0.0",
+    "jspdf": "^4.2.0",
+    "jspdf-autotable": "^5.0.7",
+    "next": "14.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-force-graph-2d": "^1.25.0",
+    "react-icons": "^5.0.0",
+    "react-syntax-highlighter": "^15.5.0",
+    "recharts": "^2.12.0",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/react-syntax-highlighter": "^15.5.0",
+    "autoprefixer": "^10.4.0",
+    "concurrently": "^8.2.0",
+    "electron": "^29.0.0",
+    "electron-builder": "^26.8.1",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.4.0",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.cloniq.desktop",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        "dmg"
+      ],
+      "icon": "electron/CLONIQ.png"
+    },
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*",
+      "electron/**/*",
+      "package.json"
+    ]
+  }
+}

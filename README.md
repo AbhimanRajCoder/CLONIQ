@@ -2,9 +2,9 @@
 
 A smart tool that finds copied code by analyzing structure, not just text. Powered by **AST + CFG + DataFlow** structural analysis and **Gemini AI Semantic Judge**.
 
-🔗 **Try it Live:** [https://cloniq-puce.vercel.app](https://cloniq-puce.vercel.app)  
-📁 **Project Assets / Documentation:** [Google Drive Folder](https://drive.google.com/drive/folders/1xL9q75p5FJ1rLelhwpsGjYiMA6sSHxTV?usp=sharing)
-
+**Try it Live:** [https://cloniq-puce.vercel.app](https://cloniq-puce.vercel.app)  
+**Project Assets / Documentation:** [Google Drive Folder](https://drive.google.com/drive/folders/1xL9q75p5FJ1rLelhwpsGjYiMA6sSHxTV?usp=sharing)
+**DESKTOP APP:** [Google Drive Folder](https://drive.google.com/file/d/13txQmd9WclgEMy2_rciD5de6CNCa6vn9/view?usp=sharing)
 ---
 
 ## What Problem Does This Solve?
